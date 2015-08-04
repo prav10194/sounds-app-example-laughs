@@ -1,6 +1,6 @@
 package info.androidhive.slidingmenu.adapter;
 
-import info.androidhive.slidingmenu.R;
+import com.joker.laughs.R;
 import info.androidhive.slidingmenu.model.NavDrawerItem;
 
 import java.util.ArrayList;

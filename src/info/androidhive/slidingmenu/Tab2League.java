@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -37,6 +38,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import com.joker.laughs.R;
 
 
 public class Tab2League extends Activity
@@ -75,7 +77,8 @@ public class Tab2League extends Activity
                     sound.write(buf);
                     sound.flush();
                     sound.close();
-                    
+                    Toast.makeText(getApplicationContext(), "File saved at raw2sd/ORG",
+                 		   Toast.LENGTH_LONG).show();
                     
                   //RINGTONE
                     File k = new File(sound1, "Joker-Hammil-Two.mp3"); // path is a file to /sdcard/media/ringtone
@@ -94,10 +97,14 @@ public class Tab2League extends Activity
 
                     //Insert it into the database
                     Uri uri = MediaStore.Audio.Media.getContentUriForPath(k.getAbsolutePath());
-                    Uri newUri = getApplicationContext().getContentResolver().insert(uri, values);
+                    getContentResolver().delete(uri, MediaStore.MediaColumns.DATA + "=\"" + k.getAbsolutePath() + "\"", null);
+                    Uri newUri = getContentResolver().insert(uri, values);
 
-                    RingtoneManager.setActualDefaultRingtoneUri(getBaseContext(), RingtoneManager.TYPE_RINGTONE,newUri);  
-                    
+                    RingtoneManager.setActualDefaultRingtoneUri(Tab2League.this,
+                            RingtoneManager.TYPE_RINGTONE, newUri);
+                    Toast.makeText(getApplicationContext(), "Sound is set as ringtone",
+                 		   Toast.LENGTH_LONG).show();
+                                        
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -143,6 +150,8 @@ public class Tab2League extends Activity
                     sound.write(buf);
                     sound.flush();
                     sound.close();
+                    Toast.makeText(getApplicationContext(), "File saved at raw2sd/ORG",
+                 		   Toast.LENGTH_LONG).show();
                     
                     String sharePath = Environment.getExternalStorageDirectory().getPath()
         		            + "/raw2sd/ORG/Joker-Hammil-Two.mp3";
@@ -222,6 +231,9 @@ public class Tab2League extends Activity
 	        }  
 	    }
 	}
+	
+	
+	
 	private void copyFile(InputStream in, OutputStream out) throws IOException {
 	    byte[] buffer = new byte[1024];
 	    int read;
